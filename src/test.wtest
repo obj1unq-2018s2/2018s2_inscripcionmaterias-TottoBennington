@@ -1,0 +1,66 @@
+import estudiante.*
+import materia.*
+import carrera.*
+describe "tests del punto 7"{
+	var tpi = new Carrera()
+	var tobias = new Estudiante(
+		materiasAprobadas = [],
+		inscriptoEnMaterias = [],
+		carrerasCursadas = [tpi],
+		creditosTotales = 0
+	)
+	var objetos_1 = new Materia(
+		creditosAlAprobar = 25,
+		anioDeLaMateria = 2,
+		carreraALaQuePertenece = tpi,
+		cupo = 35,
+		listaDeEspera = [],
+		inscriptos = []
+	)
+	var objetos_2 = new MateriaConCorrelativas(
+		creditosAlAprobar = 25,
+		anioDeLaMateria = 2,
+		carreraALaQuePertenece = tpi,
+		cupo = 2,
+		listaDeEspera = [],
+		inscriptos = [],
+		correlativas = [objetos_1]
+	)
+	var matematica_3 = new MateriaConCorrelativas(
+		creditosAlAprobar = 25,
+		anioDeLaMateria = 3,
+		carreraALaQuePertenece = tpi,
+		cupo = 5,
+		listaDeEspera = [],
+		inscriptos = [],
+		correlativas = [objetos_1, objetos_2]
+	)
+	var ingles_1 = new MateriaConCorrelativas(
+		creditosAlAprobar = 25,
+		anioDeLaMateria = 1,
+		carreraALaQuePertenece = tpi,
+		cupo = 0,
+		listaDeEspera = [],
+		inscriptos = []
+	)
+	fixture{
+		tpi.materias([objetos_1, objetos_2, ingles_1])
+		tobias.registrarNuevaMatAprobada(objetos_1, 6)
+		//tobias.inscribirseEn(objetos_2)
+	}
+	test "a"{
+		assert.that(tobias.puedeCursar(objetos_2))
+	}
+//	test "No se puede inscribir 2 veces en la misma materia"{
+//		tobias.inscribirseEn(objetos_2)
+//		assert.equals(tobias.materiasAprobadas().size(), 1)
+//	}
+//	test "No puede cursar una materia/inscribirse por falta de una correlativa"{
+//		assert.that(not tobias.puedeCursar(matematica_3))
+//	}
+//	test "asd"{
+//		tobias.inscribir()
+//		assert.equals(ingles_1.listaDeEspera(), [tobias])
+//	}
+	
+}
